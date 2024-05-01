@@ -138,66 +138,42 @@ sr.reveal(`.home__perfil, .about__image, .contact__mail`, {origin: 'right'})
 sr.reveal(`.home__name, .home__info, .about__container, .section__title-1, .about__info, .contact__social, .contact__data`, {origin: 'left'})
 sr.reveal(`.projects__card`, {interval: 100})
 
-/*=============== POP UP TRIAL ===============*/ 
-// Get the project popup elements
-const projectPopup = document.getElementById('project-popup');
-const projectPopupContent = document.querySelector('.project-popup-content');
-const projectPopupClose = document.querySelector('.project-popup-close');
-const projectButtons = document.querySelectorAll('.projects__button');
 
-// Add click event listener to each project button
-projectButtons.forEach((button, index) => {
-  button.addEventListener('click', () => {
-    // Populate the popup content
-    document.querySelector('.project-popup-title').textContent = projectData[index].title;
-    document.querySelector('.project-popup-description').innerHTML = projectData[index].description;
+// Get the modal container and modal buttons
+const modalContainer = document.getElementById('modal-container');
+const modalButtons = document.querySelectorAll('.modal-button');
 
-    // Add project images to the popup
-    const projectImagesContainer = document.querySelector('.project-popup-images');
-    projectImagesContainer.innerHTML = '';
-    projectData[index].images.forEach(image => {
-      const img = document.createElement('img');
-      img.src = image;
-      projectImagesContainer.appendChild(img);
+// Get the close buttons
+const closeButtons = document.querySelectorAll('.close-button');
+
+// Open the modal when the project button is clicked
+modalButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const modalId = button.getAttribute('data-modal-id');
+        const modal = document.getElementById(modalId);
+        modalContainer.style.display = 'block';
+        modal.style.display = 'block';
     });
-
-    // Show the popup
-    projectPopup.style.display = 'block';
-  });
 });
 
-// Close the popup when the close button is clicked
-projectPopupClose.addEventListener('click', () => {
-  projectPopup.style.display = 'none';
+// Close the modal when the close button is clicked
+closeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        modalContainer.style.display = 'none';
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            modal.style.display = 'none';
+        });
+    });
 });
 
-// Close the popup when the user clicks outside of it
-window.addEventListener('click', (event) => {
-  if (event.target == projectPopup) {
-    projectPopup.style.display = 'none';
-  }
+// Close the modal when the user clicks outside the modal
+window.addEventListener('click', event => {
+    if (event.target === modalContainer) {
+        modalContainer.style.display = 'none';
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            modal.style.display = 'none';
+        });
+    }
 });
-
-// Project data
-const projectData = [
-  {
-    title: 'Scroll Seeker App',
-    description: 'This is a CLI development project that helps you find the best scrolling positions on web pages.',
-    images: ['assets/img/project-1.jpg', 'assets/img/project-2.jpg', 'assets/img/project-3.jpg']
-  },
-  {
-    title: 'Personal Portfolio',
-    description: 'This is my personal portfolio website, showcasing my skills and projects.',
-    images: ['assets/img/project-2.jpg', 'assets/img/project-1.jpg', 'assets/img/project-3.jpg']
-  },
-  {
-    title: 'Health+',
-    description: 'This is a prototyping project for a health-focused mobile application.',
-    images: ['assets/img/project-3.jpg', 'assets/img/project-1.jpg', 'assets/img/project-2.jpg']
-  },
-  {
-    title: 'Dreamworld River Rapids Disaster',
-    description: 'This is a design solution project for a case study on the Dreamworld River Rapids Disaster.',
-    images: ['assets/img/project-1.jpg', 'assets/img/project-2.jpg', 'assets/img/project-3.jpg']
-  }
-];
